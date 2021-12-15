@@ -15,5 +15,11 @@
   "bugs": {
     "url": "https://github.com/danielxf007/NFTAuctionPlatform/issues"
   },
-  "homepage": "https://github.com/danielxf007/NFTAuctionPlatform#readme"
+  "homepage": "https://github.com/danielxf007/NFTAuctionPlatform#readme",
+  "devDependencies": {
+    "hardhat": "^2.8.0"
+  },
+  "dependencies": {
+    "vue": "^2.6.14"
+  }
 }
