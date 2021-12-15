@@ -10,4 +10,6 @@ Hardhat: this is a compiler that allows to compile and test *.sol smart contract
 use the command npm install --save-dev hardhat to install, for more information about
 Hardhat visit https://hardhat.org/getting-started/#overview
 
+Vue: this framework will be used to make the platform's front end.
+
 
