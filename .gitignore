@@ -1,3 +1,4 @@
 node_modules/
 
+#Hardhat packages
 package-lock.json
