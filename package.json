@@ -1,25 +1,16 @@
 {
   "name": "nftauctionplatform",
-  "version": "1.0.0",
-  "description": "Platform that allows to mint and sell NFTs through an auction",
-  "main": "index.js",
+  "version": "0.0.0",
+  "private": true,
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/danielxf007/NFTAuctionPlatform.git"
-  },
-  "author": "Daniel Higuita",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/danielxf007/NFTAuctionPlatform/issues"
-  },
-  "homepage": "https://github.com/danielxf007/NFTAuctionPlatform#readme",
-  "devDependencies": {
-    "hardhat": "^2.8.0"
+    "start": "node ./bin/www"
   },
   "dependencies": {
-    "vue": "^2.6.14"
+    "cookie-parser": "~1.4.4",
+    "debug": "~2.6.9",
+    "express": "~4.16.1",
+    "hbs": "~4.0.4",
+    "http-errors": "~1.6.3",
+    "morgan": "~1.9.1"
   }
 }
