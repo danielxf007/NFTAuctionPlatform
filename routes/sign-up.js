@@ -1,18 +1,21 @@
 var express = require('express');
+const web3_utils = require('web3-utils');
 const bcrypt = require('bcrypt');
 const salt = 10;
 var router = express.Router();
-
-var request_time  = function (req, res, next){
-    req.requesTime = Date.now();
-    next();
-}
-
-router.use(request_time);
+const error_mssgs = require('../error-mssgs.json');
 
 /* GET home page. */
 router.get('/', function(req, res) {
   res.render('sign-up', { title: 'Sign Up' });
+});
+
+router.post('/', function(req, res, next){
+    if(web3_utils.isAddress(req.body.wallet_addr)){
+        next();
+    }else{
+        res.render('sign-up', {title: 'Sign Up', err: error_mssgs['invalid wallet']});
+    }
 });
 
 router.post('/', async function(req, res, next){
