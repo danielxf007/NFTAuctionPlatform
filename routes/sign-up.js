@@ -1,6 +1,7 @@
 var express = require('express');
 const bcrypt = require('bcrypt');
 const error_mssgs = require('../error-mssgs.json');
+const confirmation_mssgs = require('../confirmation-mssgs.json');
 const mongoose = require('mongoose');
 const db_url = require('../config/db_url.json');
 const user_model = require('../models/user');
@@ -16,17 +17,6 @@ const connectionParams={
 router.get('/', function(req, res) {
   res.render('sign-up', { title: 'Sign Up' });
 });
-
-//Checks if a wallet address is valid
-/*
-router.post('/', function(req, res, next){
-    if(web3_utils.isAddress(req.body.wallet_addr)){
-        next();
-    }else{
-        res.render('sign-up', {title: 'Sign Up', err: error_mssgs['invalid wallet']});
-    }
-});
-*/
 
 //Connects with the data base
 router.post('/', async function(req, res, next){
@@ -74,10 +64,19 @@ router.post('/', async function(req, res, next){
     }
 });
 
+//Closes data base connection
+router.post('/', async function(req, res, next){
+    try{
+        await mongoose.disconnect();
+        next();
+    }catch(e){
+        res.render('sign-up', {title: 'Sign Up', err: e});
+    }
+});
 
+//Renders the sign up page
 router.post('/', function(req, res){
-    console.log(req.body);
-    res.render("index");
+    res.render('sign-up', {title: 'Sign Up', mssg: confirmation_mssgs['user created']});
 });
 
 module.exports = router;
