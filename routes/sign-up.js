@@ -1,15 +1,12 @@
 var express = require('express');
-const web3_utils = require('web3-utils');
 const bcrypt = require('bcrypt');
 const error_mssgs = require('../error-mssgs.json');
 const mongoose = require('mongoose');
 const db_url = require('../config/db_url.json');
-require('dotenv').config();
+const user_model = require('../models/user');
 var router = express.Router();
 const salt = 10;
-const db_user = process.env.DB_USER;
-const db_password = process.env.DB_PASSWORD
-var user_db_url = db_url["clients_db"];
+const user_db_url = db_url["clients_db"];
 
 const connectionParams={
     useNewUrlParser: true,
@@ -21,6 +18,7 @@ router.get('/', function(req, res) {
 });
 
 //Checks if a wallet address is valid
+/*
 router.post('/', function(req, res, next){
     if(web3_utils.isAddress(req.body.wallet_addr)){
         next();
@@ -28,26 +26,54 @@ router.post('/', function(req, res, next){
         res.render('sign-up', {title: 'Sign Up', err: error_mssgs['invalid wallet']});
     }
 });
+*/
 
 //Connects with the data base
 router.post('/', async function(req, res, next){
     try{
-        let connection = await mongoose.connect(user_db_url, connectionParams);
+        let db = await mongoose.connect(user_db_url, connectionParams);
         next();
     }catch(e){
         res.render('sign-up', {title: 'Sign Up', err: e});
     }
 });
 
+//Checks if user exists
 router.post('/', async function(req, res, next){
-    let hash = await bcrypt.hash(req.body.password, salt);
-    if(hash){
-        req.body.password = hash;
-        next()
-    }else{
-        res.sendStatus(400);
+    try{
+        let result = await user_model.find({user_name: req.body.user_name});
+        if(result.length){
+            throw new Error(error_mssgs['user name exists']);
+        }else{
+            next();
+        }
+    }catch(e){
+        res.render('sign-up', {title: 'Sign Up', err: e});
     }
 });
+
+//Hashes password
+router.post('/', async function(req, res, next){
+    try{
+        let hash = await bcrypt.hash(req.body.password, salt);
+        req.body.password = hash;
+        next()
+    }catch(e){
+        res.render('sign-up', {title: 'Sign Up', err: e});
+    }
+});
+
+//Adds user to the database
+router.post('/', async function(req, res, next){
+    try{
+        let new_user = new user_model(req.body);
+        await new_user.save();
+        next();
+    }catch(e){
+        res.render('sign-up', {title: 'Sign Up', err: e});
+    }
+});
+
 
 router.post('/', function(req, res){
     console.log(req.body);
