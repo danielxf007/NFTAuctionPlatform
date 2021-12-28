@@ -1,3 +1,4 @@
 {
-    "invalid wallet": "Your wallet address was not valid"
+    "invalid wallet": "Your wallet address was not valid",
+    "user name exists": "This user name has already been used"
 }
