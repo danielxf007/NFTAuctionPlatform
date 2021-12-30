@@ -1,4 +1,6 @@
 {
     "invalid wallet": "Your wallet address was not valid",
-    "user name exists": "This user name has already been used"
+    "user name exists": "This user name has already been used",
+    "inexistent user": "This user does not exist",
+    "incorrect password": "The password was incorrect"
 }
