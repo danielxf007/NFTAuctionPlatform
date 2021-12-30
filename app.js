@@ -7,6 +7,7 @@ var path = require('path');
 var index_router = require('./routes/index');
 var users_router = require('./routes/users');
 var sign_up_router = require('./routes/sign-up');
+var sign_in_router = require('./routes/sign-in');
 
 var app = express();
 
@@ -23,7 +24,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', index_router);
 app.use('/users', users_router);
 app.use('/sign-up', sign_up_router);
-
+app.use('/sign-in', sign_in_router);
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
