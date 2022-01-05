@@ -1,13 +1,17 @@
 var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
+const session = require('express-session');
+const MongoStore = require('connect-mongo');
+const db_url = require('./config/db_url.json');
 //var cookieParser = require('cookie-parser');
 //var logger = require('morgan');
-
+const user_db_url = db_url["clients_db"];
 var index_router = require('./routes/index');
-var users_router = require('./routes/users');
+var users_router = require('./routes/user');
 var sign_up_router = require('./routes/sign-up');
 var sign_in_router = require('./routes/sign-in');
+var user_router = require('./routes/user');
 
 var app = express();
 
@@ -20,11 +24,24 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 //app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(session({
+  secret: 'this secret',
+  resave: false,
+  saveUninitialized: true,
+  store: MongoStore.create({
+    mongoUrl: user_db_url,
+    client: 'session'
+  }),
+  user_name: '',
+  minted_nfts: [],
+  cookie:{}
+}));
 
 app.use('/', index_router);
 app.use('/users', users_router);
 app.use('/sign-up', sign_up_router);
 app.use('/sign-in', sign_in_router);
+app.use('/user', user_router);
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
