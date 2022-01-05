@@ -64,7 +64,8 @@ router.get('/', async function(req, res, next){
 });
 
 router.get('/', function(req, res){
-    res.render('sign-in', {title: 'Sign In', mssg: 'Welcome '+req.query.user_name});
+    req.session.user_name = req.query.user_name;
+    res.redirect('/user');
 });
 
 module.exports = router;
